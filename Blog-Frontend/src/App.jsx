@@ -17,7 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route element={<AppGuard />}>
             <Route path="/" element={<Home />} />
-            <Route path="/create-blog" element={<CreateBlog />} />
+            <Route path="/createBlog" element={<CreateBlog />} />
           </Route>
         </Routes>
       </Provider>

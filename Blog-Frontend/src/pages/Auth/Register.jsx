@@ -73,17 +73,17 @@ const Register = () => {
         setErrors({});
 
         const postDetails ={ 
-            firstName: formData.firstName,
-            lastName: formData.lastName,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
             email: formData.email,
-            phoneNumber: formData.phoneNumber,
+            phone: formData.phoneNumber,
             password: formData.password
         }
-        console.log(postDetails);
+        // console.log(postDetails);
         try {
             const response = await api.post('/auth/register', postDetails);
             setSubmitSuccess(true);
-            console.log(response.data);
+            // console.log(response.data);
             navigate('/login');
             // reset form
             setFormData({

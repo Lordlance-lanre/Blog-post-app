@@ -1,19 +1,7 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
-console.log(BASE_URL);
-
-/**
- * Helper to retrieve authentication headers
- */
-const getAuthHeaders = () => {
-    const token = localStorage.getItem('TOKS');
-    return token ? { 'Authorization': `Bearer ${token}`} : {};
-};
-
 /**
  * Core request wrapper
- * @param {string} endpoint - The target endpoint
- * @param {Object} options - Fetch options
  */
 async function request(endpoint = '', options = {}) {
     const cleanBase = BASE_URL.replace(/\/$/, '');
@@ -22,18 +10,19 @@ async function request(endpoint = '', options = {}) {
     
     const headers = {
         'Content-Type': 'application/json',
-        ...getAuthHeaders(),
         ...options.headers,
     };
 
-    // If body is FormData (e.g., uploading files), delete Content-Type to let the browser set boundary
+    // If body is FormData (file upload), let browser set Content-Type
     if (options.body instanceof FormData) {
         delete headers['Content-Type'];
     }
 
     const config = {
-        ...options,
-        headers,
+        method: options.method || 'GET',
+        credentials: 'include', // CRITICAL: This sends cookies automatically
+        headers: headers,
+        body: options.body,
     };
 
     try {
@@ -47,7 +36,6 @@ async function request(endpoint = '', options = {}) {
         const data = await response.json().catch(() => null);
 
         if (!response.ok) {
-            // Extract error message from API response if present
             const errorMsg = data?.message || data?.error || `HTTP error! status: ${response.status}`;
             const error = new Error(errorMsg);
             error.status = response.status;
@@ -62,24 +50,10 @@ async function request(endpoint = '', options = {}) {
     }
 }
 
-/**
- * Custom API client middleware
- */
 export const api = {
-    /**
-     * Perform a GET request
-     * @param {string} endpoint 
-     * @param {Object} options 
-     */
     get: (endpoint, options = {}) => 
         request(endpoint, { ...options, method: 'GET' }),
 
-    /**
-     * Perform a POST request
-     * @param {string} endpoint 
-     * @param {Object} body 
-     * @param {Object} options 
-     */
     post: (endpoint, body, options = {}) => 
         request(endpoint, { 
             ...options, 
@@ -87,12 +61,6 @@ export const api = {
             body: body instanceof FormData ? body : JSON.stringify(body) 
         }),
 
-    /**
-     * Perform a PUT request
-     * @param {string} endpoint 
-     * @param {Object} body 
-     * @param {Object} options 
-     */
     put: (endpoint, body, options = {}) => 
         request(endpoint, { 
             ...options, 
@@ -100,11 +68,6 @@ export const api = {
             body: body instanceof FormData ? body : JSON.stringify(body) 
         }),
 
-    /**
-     * Perform a DELETE request
-     * @param {string} endpoint 
-     * @param {Object} options 
-     */
     delete: (endpoint, options = {}) => 
         request(endpoint, { ...options, method: 'DELETE' }),
 };

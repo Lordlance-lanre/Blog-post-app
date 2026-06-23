@@ -4,6 +4,7 @@ const initialState = {
     email: null,
     password: null,
     token: null,
+    userId: null,
     isAuthenticated: false,
 }
 
@@ -14,20 +15,21 @@ const userSlice = createSlice({
        setEmail: (state, action) => {
             state.email = action.payload;
         },
-        setPassword: (state, action) => {
-            state.password = action.payload;
-        },
         setToken: (state, action) => {
             state.token = action.payload;
             state.isAuthenticated = true;
+        },
+         setUserId: (state, action) => {
+            state.userId = action.payload;
         },
         logout: (state) => {
             state.email = null;
             state.password = null;
             state.token = null;
+            state.userId = null;
             state.isAuthenticated = false;
         },
     }
 })
-export const { setEmail, setPassword, setToken, logout } = userSlice.actions;
+export const { setEmail, setToken, setUserId, logout } = userSlice.actions;
 export default userSlice.reducer;

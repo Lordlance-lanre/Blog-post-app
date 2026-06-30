@@ -46,7 +46,7 @@ const Home = () => {
     };
 
     const scrollToBlogs = () => {
-        blogsSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+       navigate('/blogs/all-posts');
     };
 
     const categories = ['All', 'Technology', 'Design', 'Development', 'Creativity', 'Lifestyle'];
@@ -150,7 +150,7 @@ const Home = () => {
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
                         <a href="#" className="text-white hover:text-blue-400 transition">Dashboard</a>
                         <button onClick={scrollToBlogs} className="hover:text-blue-400 cursor-pointer transition">Explore Posts</button>
-                        <Link to="/createBlog" className="hover:text-blue-400 transition">Write</Link>
+                        <Link to="/blogs/create" className="hover:text-blue-400 transition">Write</Link>
                     </nav>
 
                     {/* User Profile Dropdown */}
@@ -232,7 +232,7 @@ const Home = () => {
                     {/* High-impact CTAs */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link 
-                            to="/createBlog" 
+                            to="/blogs/create" 
                             className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-[0.98] transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 group"
                         >
                             <svg className="w-5 h-5 transition-transform duration-200 group-hover:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
